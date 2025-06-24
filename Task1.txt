@@ -1,0 +1,97 @@
+
+  1* select * from Customer
+SQL> /
+
+CUSTOMER_ID NAME                                                                                                 EMAIL                                          
+----------- ----------------------------------------------------------------------------------------
+          1 Alice Smith                                                                                          alice@example.com                              
+          2 Bob Johnson                                                                                          bob@example.com                                
+          3 Charlie Brown                                                                                        charlie@example.com                            
+          4 Diana Prince                                                                                         diana@example.com                              
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1* select * from Product
+SQL> /
+
+PRODUCT_ID NAME                                                                                                      PRICE CATEGORY_ID
+---------- -----------------------------------------------------------------------------------------
+         1 Smartphone                                                                                               599.99           1
+         2 Blender                                                                                                    89.5           4
+         3 T-shirt                                                                                                   19.99           3
+         4 Children Book                                                                                              9.99           2
+
+SQL> select * from category;
+
+CATEGORY_ID NAME
+----------- --------------------------------------------------
+          1 Electronics
+          2 Books
+          3 Clothing
+          4 Home
+
+SQL> select * from orders;
+
+  ORDER_ID CUSTOMER_ID ORDER_DAT
+---------- ----------- ---------
+         1           1 01-JUL-25
+         2           3 05-JUL-25
+         3           3 10-JUL-25
+         4           1 10-JUL-25
+Code:
+
+Table: Customer
+CREATE TABLE Customer (
+    customer_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    address TEXT
+);
+
+-- Table: Category
+CREATE TABLE Category (
+    category_id INT PRIMARY KEY,
+    name VARCHAR(50)
+);
+
+-- Table: Product
+CREATE TABLE Product (
+    product_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    price DECIMAL(10, 2),
+    category_id INT,
+    FOREIGN KEY (category_id) REFERENCES Category(category_id)
+);
+
+-- Table: Orders
+CREATE TABLE Orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
+);
+
+INSERT INTO Customer (customer_id, name, email, address) VALUES
+(1, 'Alice Smith', 'alice@example.com', '123 Apple St'),
+(2, 'Bob Johnson', 'bob@example.com', '456 Banana Ave'),
+(3, 'Charlie Brown', 'charlie@example.com', '789 Cherry Blvd'),
+(4, 'Diana Prince', 'diana@example.com', '321 Peach Dr'),
+
+INSERT INTO Category (category_id, name) VALUES
+(1, 'Electronics'),
+(2, 'Books'),
+(3, 'Clothing'),
+(5, 'Toys');
+
+INSERT INTO Product (product_id, name, price, category_id) VALUES
+(1, 'Smartphone', 599.99, 1),
+(2, 'Blender', 89.50, 4),
+(3, 'T-shirt', 19.99, 3),
+(5, 'Lego Set', 49.99, 5);
+
+INSERT INTO Orders (order_id, customer_id, order_date) VALUES
+(1, 1, '01-jul-2025'),
+(2, 2, '05-jul-2025'),
+(3, 3, '10-jul-2025'),
+(4, 1, '07-jul-2025');
